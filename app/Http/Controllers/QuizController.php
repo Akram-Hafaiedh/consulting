@@ -15,6 +15,7 @@ class QuizController extends Controller
         return view('quizzes.index', compact('quizzes'));
     }
 
+
     public function create()
     {
         return view('createquiz');

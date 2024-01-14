@@ -1,4 +1,4 @@
-<!-- Begin mobile main menu -->
+{{-- <!-- Begin mobile main menu -->
 <nav class="sr-only mmm">
     <div class="mmm-content">
         <ul class="mmm-list">
@@ -22,8 +22,8 @@
             </li>
 
         </ul>
-    </div>
-</nav><!-- End mobile main menu -->
+    </div
+</nav> --}}
 
 <header class="header header-minimal">
     <nav class="fixed top-0 z-10 w-full bg-white">
@@ -41,15 +41,21 @@
                             </a>
                         </div>
                     @endauth
-                    @auth
-                        @if (auth()->user()->isAdmin())
-                            <div class="flex items-center">
-                                <a class="text-violet-800" href="{{ route('admin') }}" title="Dashboard">
-                                    Dashboard
-                                </a>
-                            </div>
-                        @endif
-                    @endauth
+                    @admin()
+                        <div class="flex items-center">
+                            <a class="text-violet-800" href="{{ route('admin-dashboard') }}" title="Dashboard">
+                                Dashboard
+                            </a>
+                        </div>
+                    @endadmin
+
+                    @conseiller()
+                        <div class="flex items-center">
+                            <a class="text-violet-800" href="{{ route('conseiller-dashboard') }}" title="Dashboard">
+                                Dashboard
+                            </a>
+                        </div>
+                    @endconseiller
 
                 </div>
 
@@ -74,6 +80,11 @@
                             </a>
                         </li>
                         <li>
+                            <a class="text-violet-800" href="{{ route('conseillers') }}" data-title="Contact">
+                                Team
+                            </a>
+                        </li>
+                        <li>
                             <a class="text-violet-800" href="{{ route('faq') }}" data-title="FAQs"
                                 class="text-violet-800">FAQs
                             </a>
@@ -86,7 +97,7 @@
                                     <button class="flex items-center space-x-2" id="user-menu-button" aria-expanded="false"
                                         aria-haspopup="true">
                                         <div
-                                            class="flex items-center justify-center w-10 h-10 font-medium text-white uppercase bg-blue-500 rounded-full">
+                                            class="flex items-center justify-center w-10 h-10 font-medium text-white uppercase rounded-full bg-violet-500">
                                             {{ Auth::user()->initials }} <!-- Display user initials here -->
                                         </div>
                                     </button>
@@ -102,7 +113,10 @@
                                             @csrf
                                             <button type="submit"
                                                 class="block w-full px-4 py-2 text-sm text-left text-gray-700"
-                                                role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</button>
+                                                role="menuitem" tabindex="-1" id="user-menu-item-2"
+                                                onclick="event.preventDefault();
+                                                this.closest('form').submit();">Sign
+                                                out</button>
                                         </form>
                                     </div>
                                 </div>

@@ -13,28 +13,10 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link rel="icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" type="image/x-icon">
 
-    <!-- Styles -->
+    <script src="https://kit.fontawesome.com/fc923d6103.js" crossorigin="anonymous"></script>
 
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-grid.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <link rel="preload"
-        href="{{ asset('assets/fonts/source-sans-pro-v21-latin/source-sans-pro-v21-latin-regular.woff2') }}"
-        as="font" type="font/woff2" crossorigin>
-    <link rel="preload"
-        href="{{ asset('assets/fonts/source-sans-pro-v21-latin/source-sans-pro-v21-latin-700.woff2') }}" as="font"
-        type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ asset('assets/fonts/montserrat-v25-latin/montserrat-v25-latin-700.woff2') }}"
-        as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ asset('assets/fonts/montserrat-v25-latin/montserrat-v25-latin-600.woff2') }}"
-        as="font" type="font/woff2" crossorigin>
 
-    <link rel="preload" href="{{ asset('assets/fonts/material-icons/material-icons.woff2') }}" as="font"
-        type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ asset('assets/fonts/material-icons/material-icons-outlined.woff2') }}" as="font"
-        type="font/woff2" crossorigin>
-    <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -59,13 +41,6 @@
 
         @include('layouts.footer')
 
-        <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/lozad/lozad.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/device/device.js') }}"></script>
-        <script src="{{ asset('assets/libs/spincrement/jquery.spincrement.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/pristine/pristine.min.js') }}"></script>
-        <script src="{{ asset('assets/js/custom.js') }}"></script>
-        <script src="{{ asset('assets/js/forms.js') }}"></script>
     </div>
 </body>
 

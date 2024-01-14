@@ -25,19 +25,50 @@
 
             <!-- Top section with logo and navigation -->
             <div>
-                <a href="#"
-                    class="text-xl font-semibold tracking-widest text-gray-700 uppercase focus:outline-none">Admin</a>
-                <nav>
+                <div class="flex items-center justify-center">
                     <a href="{{ route('welcome') }}"
-                        class="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-500 hover:text-white">Website</a>
-                    <a href="{{ route('admin') }}"
-                        class="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-500 hover:text-white">Dashboard</a>
-                    {{-- <a href="{{ route('quizzes.index') }}"
-                            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-500 hover:text-white">Quizzes</a> --}}
-                    <a href="{{ route('users.index') }}"
-                        class="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-500 hover:text-white">Users</a>
-                    <a href="{{ route('faqs.index') }}"
-                        class="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-500 hover:text-white">FAQ's</a>
+                        class="block py-2.5 px-4 rounded transition duration-200 hover:bg-violet-500 hover:text-white"><img
+                            class="h-auto max-h-24" src="{{ asset('assets/img/Fichier 16.png') }}" alt="PathSoft"></a>
+                    </a>
+                </div>
+                <nav class="text-center">
+
+                    @admin()
+                        <div
+                            class="w-full text-xl font-semibold tracking-widest text-gray-700 uppercase focus:outline-none">
+                            Admin
+                        </div>
+                        <a href="{{ route('admin-dashboard') }}"
+                            class="text-center block py-2.5 px-4 rounded transition duration-200 hover:bg-violet-500 hover:text-white">Dashboard</a>
+                        {{-- <a href="{{ route('quizzes.index') }}"
+    class="block py-2.5 px-4 rounded transition duration-200 hover:bg-violet-500 hover:text-white">Quizzes</a> --}}
+                        <a href="{{ route('users.index') }}"
+                            class="text-center block py-2.5 px-4 rounded transition duration-200 hover:bg-violet-500 hover:text-white">Users</a>
+                        <a href="{{ route('faqs.index') }}"
+                            class="text-center block py-2.5 px-4 rounded transition duration-200 hover:bg-violet-500 hover:text-white">FAQ's</a>
+                        <a href="{{ route('admin.messages') }}"
+                            class="text-center block py-2.5 px-4 rounded transition duration-200 hover:bg-violet-500 hover:text-white">Messages</a>
+                    @endadmin
+
+                    @conseiller()
+                        <div
+                            class="w-full text-xl font-semibold tracking-widest text-gray-700 uppercase focus:outline-none">
+                            Conseiller
+                        </div>
+                        <a href="{{ route('conseiller-dashboard') }}"
+                            class="text-center block py-2.5 px-4 rounded transition duration-200 hover:bg-violet-500 hover:text-white">Dashboard</a>
+                        <a href="{{ route('allconseils') }}"
+                            class="text-center block py-2.5 px-4 rounded transition duration-200 hover:bg-violet-500 hover:text-white">Conseils</a>
+                        <a href="{{ route('appointments.index') }}"
+                            class="text-center block py-2.5 px-4 rounded transition duration-200 hover:bg-violet-500 hover:text-white">Rendez-vous</a>
+                        <a href="{{ route('conseiller.messages.index') }}"
+                            class="text-center block py-2.5 px-4 rounded transition duration-200 hover:bg-violet-500 hover:text-white">Chat</a>
+                        <a href="{{ route('conseiller.quizzes.index') }}"
+                            class="text-center block py-2.5 px-4 rounded transition duration-200 hover:bg-violet-500 hover:text-white">Quizzes</a>
+                    @endconseiller
+
+
+
                     <!-- Add more navigation links here -->
                 </nav>
             </div>

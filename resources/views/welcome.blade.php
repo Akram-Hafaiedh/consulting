@@ -136,33 +136,7 @@
 
         <section class="container py-24 mx-auto text-center">
             @php
-                $teamForPage = [
-                    [
-                        'name' => 'Amine Fares',
-                        'field' => 'Education',
-                        'position' => 'Head of Educational Outreach',
-                        'image' => 't2.jpg', // Replace with actual image file
-                    ],
-                    [
-                        'name' => 'Sara Ben Ammar',
-                        'field' => 'Relations',
-                        'position' => 'Client Relations Specialist',
-                        'image' => 't1.jpg', // Replace with actual image file
-                    ],
-                    [
-                        'name' => 'Khaled Ayari',
-                        'field' => 'Santé',
-                        'position' => 'Health Services Manager',
-                        'image' => 't3.jpg', // Replace with actual image file
-                    ],
-                    [
-                        'name' => 'Leila Gharbi',
-                        'field' => 'Education',
-                        'position' => 'Customer Service Director',
-                        'image' => 't4.jpg', // Replace with actual image file
-                    ],
-                    // ... additional team members as needed
-                ];
+                $teamForPage = $conseillers;
             @endphp
 
             <x-team :team-members="$teamForPage" />
@@ -397,7 +371,8 @@
                     </div>
                     <div class="py-8 border-purple-300 md:py-0 md:border-l md:px-4">
                         <h3 class="mb-4 text-xl font-semibold text-black">Offrez-vous un support technique?</h3>
-                        <p class="text-gray-500">Oui, notre équipe de support technique est disponible pour répondre à vos
+                        <p class="text-gray-500">Oui, notre équipe de support technique est disponible pour répondre à
+                            vos
                             questions et vous aider avec tout problème que vous pourriez rencontrer.</p>
                     </div>
                 </div>

@@ -25,7 +25,7 @@
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="mb-4 text-xl font-semibold text-gray-900">FAQs</h2>
                     <a href="{{ route('faqs.create') }}"
-                        class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none">Add
+                        class="px-4 py-2 font-bold text-white rounded bg-violet-500 hover:bg-violet-700 focus:outline-none">Add
                         FAQ
                     </a>
                 </div>

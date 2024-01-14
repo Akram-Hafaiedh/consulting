@@ -8,17 +8,23 @@
             exceptionnelle.</p>
     </div>
     <div class="grid grid-cols-1 gap-8 mt-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        @foreach ($teamMembers as $member)
+        @foreach ($teamMembers as $user)
             <div
                 class="flex flex-col items-center p-6 transition-shadow duration-300 ease-in-out bg-white rounded-lg shadow-xl hover:shadow-2xl">
-                <img class="w-24 h-24 rounded-full" src="{{ asset('assets/img/' . $member['image']) }}"
-                    alt="{{ $member['name'] }}">
-                <h3 class="mt-4 text-xl font-semibold text-gray-800">{{ $member['name'] }}</h3>
-                {{-- <p class="text-indigo-600">{{ $member['position'] }}</p> --}}
-                <p class="mt-1 text-gray-600">{{ $member['field'] }}</p>
-                <a class="inline-block px-4 py-2 mt-4 font-bold text-white transition-colors duration-200 rounded-lg bg-violet-500 hover:bg-violet-600"
-                    href='#' target='_blank'>contacter</a>
 
+                @if (isset($user->image) && !empty($user->image))
+                    <img class="w-24 h-24 rounded-full" src="{{ asset('storage/' . $user->image) }}"
+                        alt="{{ $user->name }}">
+                @else
+                    <img class="w-24 h-24 rounded-full" src="{{ asset('assets/img/avatar.png') }}"
+                        alt="{{ $user->name }}">
+                @endif
+
+                <h3 class="mt-4 text-xl font-semibold text-gray-800">{{ $user->name }}</h3>
+                {{-- <p class="text-indigo-600">{{ $user['position'] }}</p> --}}
+                <p class="mt-1 text-gray-600">{{ $user->field }}</p>
+                <a class="inline-block px-4 py-2 mt-4 font-bold text-white transition-colors duration-200 rounded-lg bg-violet-500 hover:bg-violet-600"
+                    href='{{ route('team.show', $user) }}' target='_blank'>contacter</a>
             </div>
         @endforeach
     </div>

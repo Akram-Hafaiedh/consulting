@@ -15,7 +15,7 @@ class ConseillerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !auth()->user()->isConseiller) {
+        if (!auth()->check() || !auth()->user()->isConseiller()) {
             // return redirect('home')->with('error', 'You do not have access to this section.');
             return redirect('home')->with('error', 'You do not have conseiller access.');
         }

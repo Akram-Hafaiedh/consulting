@@ -23,11 +23,9 @@
             {{-- Non-Admin Users Table --}}
             <div class="mt-8">
                 <div class="flex items-center justify-between mb-4">
-
-
                     <h2 class="mb-4 text-xl font-semibold text-gray-900">Non-Admin Users</h2>
                     <a href="{{ route('users.create') }}"
-                        class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none">Add
+                        class="px-4 py-2 font-bold text-white rounded bg-violet-500 hover:bg-violet-700 focus:outline-none">Add
                         User
                     </a>
                 </div>
@@ -56,7 +54,7 @@
                                         <div>
                                             @foreach ($user->roles as $role)
                                                 <span
-                                                    class="inline-block px-2 text-xs font-semibold tracking-wide text-blue-800 uppercase bg-blue-100 rounded-full">
+                                                    class="inline-block px-2 text-xs font-semibold tracking-wide uppercase rounded-full text-violet-800 bg-violet-100">
                                                     {{ $role->name }}
                                                 </span>
                                             @endforeach
@@ -66,15 +64,21 @@
                                     <td class="px-6 py-4 border-b border-grey-light">{{ $user->email }}</td>
 
                                     <td class="px-6 py-4 text-right border-b border-gray-200">
-                                        <form action="{{ route('users.destroy', $user) }}" method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="px-3 py-1 text-sm text-white bg-red-600 rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50">
-                                                Delete
-                                            </button>
-                                        </form>
+                                        <div class="flex justify-end">
+                                            <a href="{{ route('users.edit', $user) }}"
+                                                class="px-3 py-1 mr-2 text-sm text-white rounded-full bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-opacity-50">
+                                                Edit
+                                            </a>
+                                            <form action="{{ route('users.destroy', $user) }}" method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="px-3 py-1 text-sm text-white bg-red-600 rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

@@ -11,6 +11,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * Class User
+ *
+ * @method bool isConseiller()
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -24,7 +29,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id'
+        'phone',
+        'address',
+        'image',
+        'field',
+        'company_name',
+        'position',
     ];
 
     /**
@@ -47,6 +57,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
     public function roles(): belongsToMany
     {
         return $this->belongsToMany(Role::class);
@@ -57,20 +72,20 @@ class User extends Authenticatable
         return $this->hasMany(Quiz::class, 'quiz_id');
     }
 
-    public function hasRole($role)
+    public function hasRole($role): bool
     {
         return $this->roles()->where('name', $role)->exists();
     }
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return $this->hasRole('admin');
     }
-    public function isConseiller()
+    public function isConseiller(): bool
     {
         return $this->hasRole('conseiller');
     }
 
-    public function getInitialsAttribute()
+    public function getInitialsAttribute(): String
     {
         return $this->name ? collect(explode(' ', $this->name))->map(function ($name) {
             return strtoupper(substr($name, 0, 1));

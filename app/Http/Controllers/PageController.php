@@ -13,7 +13,10 @@ class PageController extends Controller
 
     public function welcome(): View
     {
-        return view('welcome');
+        $conseillers = User::whereHas('roles', function ($query) {
+            $query->where('name', 'conseiller');
+        })->limit(4)->get();
+        return view('welcome', compact('conseillers'));
     }
 
     public function admin(): View
@@ -23,7 +26,7 @@ class PageController extends Controller
         })->count();
 
         $regularUserCount = User::whereDoesntHave('roles', function ($query) {
-            $query->where('name', 'admin');
+            $query->where('name', 'user');
         })->count();
         $conseillerUserCount = User::whereHas('roles', function ($query) {
             $query->where('name', 'conseiller');
@@ -31,10 +34,17 @@ class PageController extends Controller
 
         $conseilsCount = Conseil::count();
 
+
         $quizCount = FAQ::count();
 
         return view('admin.dashboard', compact('quizCount', 'conseilsCount', 'adminUserCount', 'regularUserCount', 'conseillerUserCount'));
     }
+
+    public function conseiller(): View
+    {
+        return view('conseiller.dashboard');
+    }
+
 
     public function about(): View
     {
@@ -49,9 +59,7 @@ class PageController extends Controller
 
         foreach ($types as $type) {
             $conseilsByType[$type] = Conseil::where('type', $type)
-                ->latest()
-                ->take(9)
-                ->paginate(6);
+                ->take(2)->get();
         }
 
         return view('conseils', compact('conseilsByType'));
@@ -59,7 +67,13 @@ class PageController extends Controller
 
     public function conseillers(): View
     {
-        return view('conseillers');
+
+        $conseillers = User::whereHas('roles', function ($query) {
+            $query->where('name', 'conseiller');
+        })->get();
+
+
+        return view('conseillers', compact('conseillers'));
     }
 
     public function contact(): View

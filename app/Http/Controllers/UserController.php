@@ -46,12 +46,23 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'role' => 'required|in:conseiller,user,admin',
             'password' => 'required|string|min:8|confirmed',
+            'phone' => 'required|string|max:20',
+            'field' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
         ]);
 
+        if ($request->hasFile('image')) {
+            $validatedData['image'] = $request->file('image')->store('images', 'public');
+        }
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
+            'phone' => $validatedData['phone'],
+            'field' => $validatedData['field'],
+            'address' => $validatedData['address'],
+            'image' => $validatedData['image']
         ]);
 
         $user->roles()->attach(Role::where('name', $validatedData['role'])->first());
@@ -62,7 +73,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
         //
     }
@@ -70,9 +81,9 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -80,7 +91,31 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'role' => 'required|in:conseiller,user,admin',
+            'phone' => 'required|string|max:20',
+            'field' => 'required|string|max:255',
+            'address' => 'required|string|max:255'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $validatedData['image'] = $request->file('image')->store('images', 'public');
+        }
+
+        $user = User::find($id);
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+        $user->field = $validatedData['field'];
+        $user->phone = $validatedData['phone'];
+        $user->image = $validatedData['image'];
+
+        $user->save();
+
+        $user->roles()->sync(Role::where('name', $validatedData['role'])->first());
+
+        return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
 
     /**

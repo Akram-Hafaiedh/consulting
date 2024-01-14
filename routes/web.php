@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ConseillerQuizController;
 use App\Http\Controllers\ConseilsController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
@@ -30,48 +34,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
+    Route::get('/quizzes/{quiz}', [QuizController::class, 'show'])->name('quizzes.show');
+    Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+    Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::get('/team/{user}', [ProfileController::class, 'member'])->name('team.show');
+    Route::get('/conversation/{user}', [MessageController::class, 'showConversation'])->name('conversation.show');
+    Route::post('/conversation/{user}', [MessageController::class, 'store'])->name('messages.store');
 });
 
 require __DIR__ . '/auth.php';
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
-    Route::get('/quizzes/{quiz}', [QuizController::class, 'show'])->name('quizzes.show');
-});
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin-dashboard', [PageController::class, 'admin'])->name('admin');
-    Route::resource('/admin/users', UserController::class);
+    Route::get('/admin-dashboard', [PageController::class, 'admin'])->name('admin-dashboard');
+    Route::resource('/admin/users', UserController::class)->except('show');
     Route::resource('/admin/faqs', FAQController::class);
+    Route::get('/admin/messages', [ContactController::class, 'index'])->name('admin.messages');
 });
-
-Route::middleware('conseiller', 'auth')->group(function () {
-
-    Route::get('/quizzes/create', [QuizController::class, 'create'])->name('quizzes.create');
-    Route::post('/quizzes', [QuizController::class, 'store'])->name('quizzes.store');
-    Route::get('/quizzes/{quiz}/conseils', [ConseilsController::class, 'index'])->name('conseils.index');
-    Route::get('/quizzes/{quiz}/edit', [QuizController::class, 'edit'])->name('quizzes.edit');
-    Route::patch('/quizzes/{quiz}', [QuizController::class, 'update'])->name('quizzes.update');
-    Route::delete('/quizzes/{quiz}', [QuizController::class, 'destroy'])->name('quizzes.destroy');
-    Route::get('/quizzes/{quiz}/questions', [QuestionController::class, 'index'])->name('questions.index');
-    Route::get('/quizzes/{quiz}/questions/create', [QuestionController::class, 'create'])->name('questions.create');
-    Route::post('/quizzes/{quiz}/questions', [QuestionController::class, 'store'])->name('questions.store');
-    Route::get('/quizzes/{quiz}/questions/{question}', [QuestionController::class, 'show'])->name('questions.show');
-    Route::get('/quizzes/{quiz}/questions/{question}/edit', [QuestionController::class, 'edit'])->name('questions.edit');
-    Route::patch('/quizzes/{quiz}/questions/{question}', [QuestionController::class, 'update'])->name('questions.update');
-    Route::delete('/quizzes/{quiz}/questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
-
-    Route::get('/conseils', [ConseilsController::class, 'index'])->name('conseils.index');
-    Route::get('/conseils/create', [ConseilsController::class, 'create'])->name('conseils.create');
-    Route::post('/conseils', [ConseilsController::class, 'store'])->name('conseils.store');
-    Route::get('/conseils/{conseil}', [ConseilsController::class, 'show'])->name('conseils.show');
-    Route::get('/conseils/{conseil}/edit', [ConseilsController::class, 'edit'])->name('conseils.edit');
-    Route::patch('/conseils/{conseil}', [ConseilsController::class, 'update'])->name('conseils.update');
-    Route::delete('/conseils/{conseil}', [ConseilsController::class, 'destroy'])->name('conseils.destroy');
-});
-
 
 
 Route::get('/', [PageController::class, 'welcome'])->name('welcome');
@@ -79,32 +61,49 @@ Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/conseils', [PageController::class, 'conseils'])->name('conseils');
 Route::get('/conseillers', [PageController::class, 'conseillers'])->name('conseillers');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+Route::post('/messages', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/faq', [PageController::class, 'faq'])->name('faq');
 Route::get('/policy-policy', [PageController::class, 'privatePolicy'])->name('privatePolicy');
 Route::get('/terms-and-conditions', [PageController::class, 'termsAndConditions'])->name('termsAndConditions');
 Route::get('/single-service', [PageController::class, 'singleService'])->name('singleService');
 Route::get('/news', [PageController::class, 'news'])->name('news');
 
-Route::get('/dashboardconseiller', function () {
-    return view('dashboardconseiller');
+Route::middleware('conseiller', 'auth')->group(function () {
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])->name('appointments.show');
+    Route::post('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
+    Route::get('/appointments/{appointment}/edit', [AppointmentController::class, 'edit'])->name('appointments.edit');
+    Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+
+    Route::get('/conseiller-dashboard', [PageController::class, 'conseiller'])->name('conseiller-dashboard');
+    Route::resource('conseiller/messages', MessageController::class)->names([
+        'index' => 'conseiller.messages.index',
+        'create' => 'conseiller.messages.create',
+        'store' => 'conseiller.messages.store',
+        'show' => 'conseiller.messages.show',
+        'edit' => 'conseiller.messages.edit',
+        'update' => 'conseiller.messages.update',
+        'destroy' => 'conseiller.messages.destroy',
+    ]);
+    Route::get('chat/{user}', [MessageController::class, 'showMessages'])->name('chat');
+
+    Route::prefix('consiller')->group(function () {
+        Route::resource('/quizzes', ConseillerQuizController::class)->names([
+            'index' => 'conseiller.quizzes.index',
+            'create' => 'conseiller.quizzes.create',
+            'store' => 'conseiller.quizzes.store',
+            'show' => 'conseiller.quizzes.show',
+            'edit' => 'conseiller.quizzes.edit',
+            'update' => 'conseiller.quizzes.update',
+            'destroy' => 'conseiller.quizzes.destroy',
+        ]);
+    });
+
+    Route::get('/allconseils', [ConseilsController::class, 'index'])->name('allconseils');
+    Route::get('/conseils/create', [ConseilsController::class, 'create'])->name('conseils.create');
+    Route::post('/conseils', [ConseilsController::class, 'store'])->name('conseils.store');
+    Route::get('/conseils/{conseil}', [ConseilsController::class, 'show'])->name('conseils.show');
+    Route::get('/conseils/{conseil}/edit', [ConseilsController::class, 'edit'])->name('conseils.edit');
+    Route::patch('/conseils/{conseil}', [ConseilsController::class, 'update'])->name('conseils.update');
+    Route::delete('/conseils/{conseil}', [ConseilsController::class, 'destroy'])->name('conseils.destroy');
 });
-
-Route::get('/dashboardadmin', function () {
-    return view('dashboardadmin');
-});
-
-
-
-Route::get('/questions', [QuestionController::class, 'index']);
-
-Route::get('/createquestion', [QuestionController::class, 'create'])->name('question.create');
-Route::post('/storequestion', [QuestionController::class, 'store'])->name('storequestion');
-
-// Route::get('/conseils', [ConseilsController::class, 'index']);
-
-Route::get('/quizsconseiller', [QuizController::class, 'index']);
-Route::get('/quizs', [QuizController::class, 'index']);
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/createquiz', [QuizController::class, 'create'])->name('quiz.create');
-Route::post('/storequiz', [QuizController::class, 'store'])->name('quiz.store');

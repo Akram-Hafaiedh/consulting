@@ -16,12 +16,9 @@ class CreateQuizesTable extends Migration
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('type');
+            $table->string('type')->nullable();
             $table->text('description')->nullable();
-            $table->integer('time');
-            $table->integer('number_of_questions');
-            $table->integer('number_of_correct_answers');
-            $table->boolean('active');
+            $table->integer('time')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
 
             $table->timestamps();

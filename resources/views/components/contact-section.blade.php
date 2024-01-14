@@ -22,7 +22,13 @@
 
         <!-- Contact Form -->
         <div class="p-6 text-gray-700 bg-white rounded-lg md:col-span-2">
-            <form action="#" method="POST">
+            @if (session('success'))
+                <div class="mb-4 text-green-600">
+                    {{ session('success') }}
+                </div>
+            @endif
+            <form action="{{ route('contact.store') }}" method="POST">
+                @csrf
                 <h3 class="mb-4 text-xl font-semibold text-purple-700">Envoyez-nous un message</h3>
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700">Nom</label>

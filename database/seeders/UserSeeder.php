@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         $adminRole = Role::where('name', 'admin')->first();
         $conseillerRole = Role::where('name', 'conseiller')->first();
 
-        
+
         $admin = User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@localhost.com',
@@ -28,12 +28,34 @@ class UserSeeder extends Seeder
         $admin->roles()->attach($adminRole);
 
         $conseiller = User::factory()->create([
-            'name' => 'Conseiller',
+            'name' => 'Fatma Torki',
             'email' => 'conseiller@localhost.com',
             'password' => Hash::make('password'),
+
+            'phone' => '1234567890',
+            'address' => '3 Avenue de Jean Jaures, Marsa, Tunis',
+            'field' => 'Education',
+            'company_name' => 'Ecole Tunisienne d\'Informatique',
+            'position' => 'Enseignante',
             // 'role_id' => $conseillerRole->id,
         ]);
         $conseiller->roles()->attach($conseillerRole);
+
+        User::factory(2)->create([
+            'field' => 'Education',
+        ])->each(function ($conseiller) use ($conseillerRole) {
+            $conseiller->roles()->attach($conseillerRole);
+        });
+        User::factory(3)->create([
+            'field' => 'Relations',
+        ])->each(function ($conseiller) use ($conseillerRole) {
+            $conseiller->roles()->attach($conseillerRole);
+        });
+        User::factory(3)->create([
+            'field' => 'Santé',
+        ])->each(function ($conseiller) use ($conseillerRole) {
+            $conseiller->roles()->attach($conseillerRole);
+        });
 
         // $admin->conseillers()->attach($conseiller);
 

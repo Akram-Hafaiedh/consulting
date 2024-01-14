@@ -1,17 +1,28 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container mx-auto px-4 py-12">
+    <div class="container px-4 py-12 mx-auto">
         <div class="mx-auto sm:px-6 lg:px-8">
             @if (session('success'))
                 <div id="success-message"
-                    class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative transition-opacity duration-1000"
+                    class="relative px-4 py-3 text-green-700 transition-opacity duration-1000 bg-green-100 border border-green-400 rounded"
                     role="alert">
                     <strong class="font-bold">Success!</strong>
                     <span class="block sm:inline">{{ session('success') }}</span>
                 </div>
             @endif
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            @if ($errors->any())
+                <div class="relative px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded" role="alert">
+                    <strong class="font-bold">Whoops! Something went wrong.</strong>
+                    <span class="block sm:inline">Please check the form for the following errors.</span>
+                    <ul class="mt-3 list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h1 class="text-2xl font-semibold text-gray-900">Admin Dashboard</h1>
 
@@ -23,43 +34,64 @@
 
             {{-- Non-Admin Users Table --}}
             <div class="mt-8">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Création d'un utilisateur</h2>
-                <div class="bg-white p-6 rounded shadow-md">
-                    <form action="{{ route('users.store') }}" method="POST">
+                <h2 class="mb-4 text-xl font-semibold text-gray-900">Création d'un utilisateur</h2>
+                <div class="p-6 bg-white rounded shadow-md">
+                    <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
-                            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nom:</label>
-                            <input type="text" name="name" id="name"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <label for="name" class="block mb-2 text-sm font-bold text-gray-700">Nom:</label>
+                            <input type="text" name="name" id="name" value="{{ old('name') }}"
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
                         </div>
                         <div class="mb-4">
-                            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
-                            <input type="email" name="email" id="email"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <label for="email" class="block mb-2 text-sm font-bold text-gray-700">Email:</label>
+                            <input type="email" name="email" id="email" value="{{ old('email') }}"
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
                         </div>
                         <div class="mb-4">
-                            <label for="role" class="block text-gray-700 text-sm font-bold mb-2">Role:</label>
+                            <label for="image" class="block mb-2 text-sm font-bold text-gray-700">Image:</label>
+                            <input type="file" name="image" id="image" value="{{ old('image') }}"
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div class="mb-4">
+                            <label for="role" class="block mb-2 text-sm font-bold text-gray-700">Role:</label>
                             <select name="role" id="role"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
                                 <option value="conseiller">Conseilleur</option>
                                 <option value="user">Utilisateur</option>
                             </select>
                         </div>
+
                         <div class="mb-4">
-                            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Mot de passe:</label>
+                            <label for='phone'>Tél</label>
+                            <input type="text" name="phone" id="phone" value="{{ old('phone') }}"
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div class="mb-4">
+                            <label for='field'>Spécialité</label>
+                            <input type="text" name="field" id="field" value="{{ old('field') }}"
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div class="mb-4">
+                            <label for='address'>Adresse</label>
+                            <input type="text" name="address" id="address" value="{{ old('address') }}"
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="block mb-2 text-sm font-bold text-gray-700">Mot de passe:</label>
                             <input type="password" name="password" id="password"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
                         </div>
                         <div class="mb-4">
                             <label for="password_confirmation"
-                                class="block text-gray-700 text-sm font-bold mb-2">Confirmation
+                                class="block mb-2 text-sm font-bold text-gray-700">Confirmation
                                 du mot de passe:</label>
                             <input type="password" name="password_confirmation" id="password_confirmation"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
                         </div>
                         <div class="flex items-center justify-end">
                             <button
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+                                class="px-4 py-2 font-bold text-white rounded bg-violet-500 hover:bg-violet-700 focus:outline-none"
                                 type="submit">Create User</button>
                         </div>
                     </form>

@@ -14,13 +14,39 @@ class ConseilSeeder extends Seeder
     public function run(): void
     {
         $types = ['santé', 'education', 'relation'];
-        $typeImages = ['sante', 'livre-ouvert', 'main'];
+        // $typeImages = ['sante', 'livre-ouvert', 'main'];
 
-        foreach ($types as $index => $type) {
-            Conseil::factory()->count(9)->create([
-                'type' => $type,
-                'icon' => $typeImages[$index],
-            ]);
-        }
+
+        // Santé
+        Conseil::factory()->create([
+            'type' => 'santé',
+            'image' => 'assets/conseils/IMG-20240113-WA0008.jpg'
+        ]);
+
+        Conseil::factory()->create([
+            'type' => 'santé',
+            'image' => 'assets/conseils/IMG-20240111-WA0001.jpg'
+        ]);
+
+        // Education
+        Conseil::factory()->create([
+            'type' => 'education',
+            'image' => 'assets/conseils/IMG-20240111-WA0006.jpg'
+        ]);
+        Conseil::factory()->create([
+            'type' => 'education',
+            'image' => 'assets/conseils/IMG-20240111-WA0005.jpg'
+        ]);
+
+        // Relation
+        Conseil::factory()->create([
+            'type' => 'relation',
+            'image' => 'assets/conseils/IMG-20240113-WA0004.jpg'
+        ]);
+
+        Conseil::factory()->create([
+            'type' => 'relation',
+            'image' => 'assets/conseils/IMG-20240113-WA0003.jpg'
+        ]);
     }
 }

@@ -14,16 +14,16 @@ class QuizFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
     public function definition(): array
     {
+        $types = ['santé', 'éducation', 'relationnel',];
+
         return [
             'title' => fake()->sentence(),
-            'type' => fake()->sentence(),
+            'type' => fake()->randomElement($types),
             'description' => fake()->sentence(),
             'time' => fake()->numberBetween(1, 10),
-            'number_of_questions' => fake()->numberBetween(1, 10),
-            'number_of_correct_answers' => fake()->numberBetween(1, 10),
-            'active' => fake()->boolean(),
             // 'user_id' => fake()->numberBetween(1, 10),
         ];
     }
